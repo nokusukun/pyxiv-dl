@@ -1,0 +1,4 @@
+clipboard
+asyncio
+validators
+pixivpy3

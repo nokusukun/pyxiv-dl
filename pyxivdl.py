@@ -56,13 +56,13 @@ async def download(url):
                     url_basename = os.path.basename(page.image_urls.large)
                     extension = os.path.splitext(url_basename)[1]
                     print("\tDownloading Page: {0}/{1}".format(p, meta.page_count))
-                    API.download(page.image_urls.large, path=PATH, name=FILENAME_PATTERN.format(**meta_dict) + "_{0}{1}".format(p, extension))
+                    API.download(page.image_urls.large, path=PATH, name=sanitize(FILENAME_PATTERN.format(**meta_dict) + "_{0}{1}".format(p, extension)))
                     p += 1
             
             else:
                 url_basename = os.path.basename(meta.image_urls.large)
                 extension = os.path.splitext(url_basename)[1]
-                API.download(meta.image_urls.large, path=PATH, name=FILENAME_PATTERN.format(**meta_dict) + extension)
+                API.download(meta.image_urls.large, path=PATH, name=sanitize(FILENAME_PATTERN.format(**meta_dict) + extension))
         else:
             print("Already downloaded. Skipping...")
 
@@ -75,6 +75,8 @@ async def download(url):
         else:
             print("File download failed. Disposing Link.")
 
+def sanitize(string):
+    return string.replace("/", "").replace("\\", "")
 
 def isExist(filename):
     try:
